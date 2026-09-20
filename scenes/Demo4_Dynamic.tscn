@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://bmcwb8oq82xhn"]
+
+[ext_resource type="Script" uid="uid://nvkdk3yt6ywq" path="res://scripts/demo1_agent.gd" id="1_agent"]
+[ext_resource type="Script" uid="uid://bts6lefmhkcoy" path="res://scripts/demo4_manager.gd" id="2_manager"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_safe"]
+vertices = PackedVector3Array(-8.1, 0.20000005, 1.5, -7.2999997, 0.20000005, 1.5, -7.2999997, 0.20000005, -1.5, -11.5, 0.20000005, 2.7000003, -8.5, 0.20000005, 2.7000003, -8.4, 0.20000005, 1.7, -11.5, 0.20000005, -1.5, 7.300001, 0.20000005, 1.5, 7.300001, 0.20000005, -1.5, 8.5, 0.20000005, 1.9000001, 8.5, 0.20000005, 2.7000003, 11.5, 0.20000005, 2.7000003, 8.300001, 0.20000005, 1.6000001, 11.5, 0.20000005, -1.5, -11.5, 0.20000005, 7.3, -8.5, 0.20000005, 7.3, 8.5, 0.20000005, 7.3, 11.5, 0.20000005, 7.3, -7.2999997, 0.20000005, 11.5, -7.2999997, 0.20000005, 8.5, -8.1, 0.20000005, 8.5, -8.4, 0.20000005, 8.3, -11.5, 0.20000005, 11.5, 8.5, 0.20000005, 8.1, 8.300001, 0.20000005, 8.400001, 7.300001, 0.20000005, 8.5, 7.300001, 0.20000005, 11.5, 11.5, 0.20000005, 11.5)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(3, 5, 4), PackedInt32Array(0, 5, 2), PackedInt32Array(2, 5, 6), PackedInt32Array(6, 5, 3), PackedInt32Array(2, 8, 1), PackedInt32Array(1, 8, 7), PackedInt32Array(11, 10, 9), PackedInt32Array(12, 7, 8), PackedInt32Array(9, 12, 11), PackedInt32Array(11, 12, 13), PackedInt32Array(13, 12, 8), PackedInt32Array(3, 4, 14), PackedInt32Array(14, 4, 15), PackedInt32Array(10, 11, 16), PackedInt32Array(16, 11, 17), PackedInt32Array(20, 19, 18), PackedInt32Array(14, 15, 21), PackedInt32Array(20, 18, 21), PackedInt32Array(21, 18, 22), PackedInt32Array(21, 22, 14), PackedInt32Array(23, 16, 17), PackedInt32Array(26, 25, 24), PackedInt32Array(23, 17, 24), PackedInt32Array(24, 17, 27), PackedInt32Array(24, 27, 26), PackedInt32Array(19, 25, 18), PackedInt32Array(18, 25, 26)]
+cell_size = 0.1
+cell_height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_safe"]
+albedo_color = Color(0.2, 0.6, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_danger"]
+albedo_color = Color(0.8, 0.2, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_agent"]
+albedo_color = Color(0.2, 0.8, 0.8, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_agent"]
+material = SubResource("StandardMaterial3D_agent")
+radius = 0.2
+height = 1.2
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_agent"]
+radius = 0.2
+height = 1.2
+
+[node name="Demo4_Dynamic" type="Node3D" unique_id=804198004]
+script = ExtResource("2_manager")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1396852240]
+navigation_mesh = SubResource("NavigationMesh_safe")
+
+[node name="StartPad" type="CSGBox3D" parent="NavigationRegion3D" unique_id=1742351413]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -0.5, 0)
+use_collision = true
+size = Vector3(4, 1, 4)
+material = SubResource("StandardMaterial3D_safe")
+
+[node name="EndPad" type="CSGBox3D" parent="NavigationRegion3D" unique_id=1965255965]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -0.5, 0)
+use_collision = true
+size = Vector3(4, 1, 4)
+material = SubResource("StandardMaterial3D_safe")
+
+[node name="Vert1" type="CSGBox3D" parent="NavigationRegion3D" unique_id=2110236796]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -0.5, 6)
+use_collision = true
+size = Vector3(4, 1, 8)
+material = SubResource("StandardMaterial3D_safe")
+
+[node name="Vert2" type="CSGBox3D" parent="NavigationRegion3D" unique_id=1672571757]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -0.5, 6)
+use_collision = true
+size = Vector3(4, 1, 8)
+material = SubResource("StandardMaterial3D_safe")
+
+[node name="Horiz" type="CSGBox3D" parent="NavigationRegion3D" unique_id=1569794880]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 10)
+use_collision = true
+size = Vector3(24, 1, 4)
+material = SubResource("StandardMaterial3D_safe")
+
+[node name="Bridge_A" type="CSGBox3D" parent="NavigationRegion3D" unique_id=230830636]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1762085, -0.5, 0)
+use_collision = true
+size = Vector3(18.352417, 1, 4)
+material = SubResource("StandardMaterial3D_danger")
+
+[node name="Target" type="Marker3D" parent="." unique_id=2113151635]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+
+[node name="Agent" type="CharacterBody3D" parent="." unique_id=1747300478 node_paths=PackedStringArray("movement_target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.6, 0)
+script = ExtResource("1_agent")
+movement_target = NodePath("../Target")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Agent" unique_id=1840896402]
+mesh = SubResource("CapsuleMesh_agent")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Agent" unique_id=1676137537]
+shape = SubResource("CapsuleShape3D_agent")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Agent" unique_id=153326681]
+debug_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=53084813]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 20, 15)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=436012345]
+transform = Transform3D(0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, -0.75, 0.433013, 0, 10, 0)
+shadow_enabled = true

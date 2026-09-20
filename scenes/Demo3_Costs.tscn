@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://dkhg87kq0wgya"]
+
+[ext_resource type="Script" uid="uid://nvkdk3yt6ywq" path="res://scripts/demo1_agent.gd" id="1_xnh3e"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_safe"]
+vertices = PackedVector3Array(-11.5, 0.20000005, 7.3, -8.5, 0.20000005, 7.3, -8.5, 0.20000005, -1.5, -11.5, 0.20000005, -1.5, 8.5, 0.20000005, 7.3, 11.5, 0.20000005, 7.3, 11.5, 0.20000005, -1.5, 8.5, 0.20000005, -1.5, -7.2999997, 0.20000005, 11.5, -7.2999997, 0.20000005, 8.5, -8.1, 0.20000005, 8.5, -8.4, 0.20000005, 8.3, -11.5, 0.20000005, 11.5, 8.5, 0.20000005, 8.1, 8.300001, 0.20000005, 8.400001, 7.300001, 0.20000005, 8.5, 7.300001, 0.20000005, 11.5, 11.5, 0.20000005, 11.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(7, 6, 4), PackedInt32Array(4, 6, 5), PackedInt32Array(10, 9, 8), PackedInt32Array(0, 1, 11), PackedInt32Array(10, 8, 11), PackedInt32Array(11, 8, 12), PackedInt32Array(11, 12, 0), PackedInt32Array(13, 4, 5), PackedInt32Array(16, 15, 14), PackedInt32Array(13, 5, 14), PackedInt32Array(14, 5, 17), PackedInt32Array(14, 17, 16), PackedInt32Array(9, 15, 8), PackedInt32Array(8, 15, 16)]
+cell_size = 0.1
+cell_height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_safe"]
+albedo_color = Color(0.2, 0.6, 0.2, 1)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_danger"]
+vertices = PackedVector3Array(-8.625549, 0.20000005, -1.5, -8.625549, 0.20000005, 1.5, 8.574451, 0.20000005, 1.5, 8.574451, 0.20000005, -1.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+cell_size = 0.1
+cell_height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_danger"]
+albedo_color = Color(0.8, 0.2, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_agent"]
+albedo_color = Color(0.2, 0.8, 0.8, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_agent"]
+material = SubResource("StandardMaterial3D_agent")
+radius = 0.2
+height = 1.2
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_agent"]
+radius = 0.2
+height = 1.2
+
+[node name="Demo3_Costs" type="Node3D" unique_id=56391100]
+
+[node name="SafeRegion" type="NavigationRegion3D" parent="." unique_id=1253504711]
+navigation_mesh = SubResource("NavigationMesh_safe")
+
+[node name="StartPad" type="CSGBox3D" parent="SafeRegion" unique_id=400069185]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -0.5, 0)
+use_collision = true
+size = Vector3(4, 1, 4)
+material = SubResource("StandardMaterial3D_safe")
+
+[node name="EndPad" type="CSGBox3D" parent="SafeRegion" unique_id=422911174]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -0.5, 0)
+use_collision = true
+size = Vector3(4, 1, 4)
+material = SubResource("StandardMaterial3D_safe")
+
+[node name="Vert1" type="CSGBox3D" parent="SafeRegion" unique_id=1404179639]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -0.5, 6)
+use_collision = true
+size = Vector3(4, 1, 8)
+material = SubResource("StandardMaterial3D_safe")
+
+[node name="Vert2" type="CSGBox3D" parent="SafeRegion" unique_id=497623879]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -0.5, 6)
+use_collision = true
+size = Vector3(4, 1, 8)
+material = SubResource("StandardMaterial3D_safe")
+
+[node name="Horiz" type="CSGBox3D" parent="SafeRegion" unique_id=2006983778]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 10)
+use_collision = true
+size = Vector3(24, 1, 4)
+material = SubResource("StandardMaterial3D_safe")
+
+[node name="DangerRegion" type="NavigationRegion3D" parent="." unique_id=133393686]
+navigation_mesh = SubResource("NavigationMesh_danger")
+travel_cost = 2.0
+
+[node name="DangerBridge" type="CSGBox3D" parent="DangerRegion" unique_id=1853155100]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.014175415, -0.5, 0)
+use_collision = true
+size = Vector3(18.222748, 1, 4)
+material = SubResource("StandardMaterial3D_danger")
+
+[node name="Target" type="Marker3D" parent="." unique_id=378930182]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+
+[node name="Agent" type="CharacterBody3D" parent="." unique_id=1093615442 node_paths=PackedStringArray("movement_target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.6, 0)
+script = ExtResource("1_xnh3e")
+movement_target = NodePath("../Target")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Agent" unique_id=274486442]
+mesh = SubResource("CapsuleMesh_agent")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Agent" unique_id=1099881879]
+shape = SubResource("CapsuleShape3D_agent")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Agent" unique_id=1092656300]
+debug_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1309262019]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 20, 15)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=654867873]
+transform = Transform3D(0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, -0.75, 0.433013, 0, 10, 0)
+shadow_enabled = true

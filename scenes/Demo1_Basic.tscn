@@ -1,0 +1,120 @@
+[gd_scene format=3 uid="uid://bk8unfpr7gpfa"]
+
+[ext_resource type="Script" uid="uid://nvkdk3yt6ywq" path="res://scripts/demo1_agent.gd" id="1_q1p7s"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_nav"]
+
+[sub_resource type="GDScript" id="GDScript_c6eec"]
+script/source = "extends NavigationRegion3D
+
+func _ready():
+	print(\"Đang tiến hành tự động Bake Lưới Điều Hướng...\")
+	# Bake runtime 
+	bake_navigation_mesh(false)
+
+func _on_navigation_mesh_baked():
+	print(\"Đã Bake Lưới thành công! Số lượng đa giác: \", navigation_mesh.get_polygon_count())
+"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+albedo_color = Color(0.2, 0.2, 0.2, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
+material = SubResource("StandardMaterial3D_floor")
+size = Vector2(20, 20)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_floor"]
+data = PackedVector3Array(10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0, -10, 10, 0, -10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_obs"]
+albedo_color = Color(0.8, 0.2, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_obs"]
+material = SubResource("StandardMaterial3D_obs")
+size = Vector3(6, 2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_obs"]
+size = Vector3(6, 2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_agent"]
+albedo_color = Color(0.2, 0.8, 0.2, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_agent"]
+material = SubResource("StandardMaterial3D_agent")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_agent"]
+
+[node name="Demo1_Basic" type="Node3D" unique_id=2067080917]
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=865877477]
+navigation_mesh = SubResource("NavigationMesh_nav")
+script = SubResource("GDScript_c6eec")
+
+[node name="Floor" type="MeshInstance3D" parent="NavigationRegion3D" unique_id=1536549676]
+mesh = SubResource("PlaneMesh_floor")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Floor" unique_id=1261289066]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Floor/StaticBody3D" unique_id=262880071]
+shape = SubResource("ConcavePolygonShape3D_floor")
+
+[node name="Obstacle1" type="MeshInstance3D" parent="NavigationRegion3D" unique_id=841481208]
+transform = Transform3D(-0.59816295, -0.0055946033, -0.80135506, 0, 0.99997556, -0.006981261, 0.8013744, -0.0041759307, -0.59814847, -3.504962, 1, 0.8987789)
+mesh = SubResource("BoxMesh_obs")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Obstacle1" unique_id=906810702]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacle1/StaticBody3D" unique_id=49985084]
+shape = SubResource("BoxShape3D_obs")
+
+[node name="Obstacle3" type="MeshInstance3D" parent="NavigationRegion3D" unique_id=1340009880]
+transform = Transform3D(0.42768973, -0.0063105393, -0.90390366, 0, 0.99997556, -0.006981261, 0.9039255, 0.002985813, 0.42767936, 5.8618665, 1, 3.835044)
+mesh = SubResource("BoxMesh_obs")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Obstacle3" unique_id=1529549726]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacle3/StaticBody3D" unique_id=1671837338]
+shape = SubResource("BoxShape3D_obs")
+
+[node name="Obstacle2" type="MeshInstance3D" parent="NavigationRegion3D" unique_id=170676665]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.879691, 1, -3.5756116)
+mesh = SubResource("BoxMesh_obs")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Obstacle2" unique_id=1325261049]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacle2/StaticBody3D" unique_id=1220937763]
+shape = SubResource("BoxShape3D_obs")
+
+[node name="Obstacle4" type="MeshInstance3D" parent="NavigationRegion3D" unique_id=1228495794]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.9543571, 1, -6.133793)
+mesh = SubResource("BoxMesh_obs")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Obstacle4" unique_id=215606249]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacle4/StaticBody3D" unique_id=600134046]
+shape = SubResource("BoxShape3D_obs")
+
+[node name="Target" type="Marker3D" parent="." unique_id=586885790]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -8)
+
+[node name="Agent" type="CharacterBody3D" parent="." unique_id=1808071632 node_paths=PackedStringArray("movement_target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, 8)
+script = ExtResource("1_q1p7s")
+movement_target = NodePath("../Target")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Agent" unique_id=1679266992]
+mesh = SubResource("CapsuleMesh_agent")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Agent" unique_id=834608683]
+shape = SubResource("CapsuleShape3D_agent")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Agent" unique_id=1017039676]
+debug_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1666703290]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 16, 12)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=748118013]
+transform = Transform3D(0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, -0.75, 0.433013, 0, 10, 0)
+shadow_enabled = true
