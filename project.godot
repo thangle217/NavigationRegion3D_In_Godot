@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="NavigationRegionTest"
-run/main_scene="uid://bmcwb8oq82xhn"
+run/main_scene="uid://dkhg87kq0wgya"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
